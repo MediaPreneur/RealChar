@@ -39,6 +39,4 @@ class Google(Singleton, SpeechToText):
         if not response.results:
             return ''
         result = response.results[0]
-        if not result.alternatives:
-            return ''
-        return result.alternatives[0].transcript
+        return '' if not result.alternatives else result.alternatives[0].transcript

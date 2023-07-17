@@ -108,18 +108,19 @@ async def handle_receive(
             return await manager.send_message(message=token, websocket=websocket)
 
         async def stop_audio():
-            if tts_task and not tts_task.done():
-                tts_event.set()
-                tts_task.cancel()
-                if previous_transcript:
-                    conversation_history.user.append(previous_transcript)
-                    conversation_history.ai.append(' '.join(token_buffer))
-                    token_buffer.clear()
-                try:
-                    await tts_task
-                except asyncio.CancelledError:
-                    pass
-                tts_event.clear()
+            if not tts_task or tts_task.done():
+                return
+            tts_event.set()
+            tts_task.cancel()
+            if previous_transcript:
+                conversation_history.user.append(previous_transcript)
+                conversation_history.ai.append(' '.join(token_buffer))
+                token_buffer.clear()
+            try:
+                await tts_task
+            except asyncio.CancelledError:
+                pass
+            tts_event.clear()
 
         while True:
             data = await websocket.receive()

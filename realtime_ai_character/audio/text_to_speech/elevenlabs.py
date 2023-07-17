@@ -58,7 +58,7 @@ class ElevenLabs(Singleton, TextToSpeech):
         voice_id = self.get_voice_id(characater_name)
         url = config.url.format(voice_id=voice_id)
         if first_sentence:
-            url = url + '?optimize_streaming_latency=4'
+            url = f'{url}?optimize_streaming_latency=4'
         async with httpx.AsyncClient() as client:
             response = await client.post(url, json=data, headers=headers)
             async for chunk in response.aiter_bytes():
