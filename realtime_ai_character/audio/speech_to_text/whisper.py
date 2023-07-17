@@ -46,21 +46,19 @@ class Whisper(Singleton, SpeechToText):
             return self._transcribe_api(audio, prompt)
 
     def _transcribe(self, audio, prompt=''):
-        text = self.recognizer.recognize_whisper(
+        return self.recognizer.recognize_whisper(
             audio,
             model=config.model,
             language=config.language,
             show_dict=True,
-            initial_prompt=prompt
+            initial_prompt=prompt,
         )['text']
-        return text
 
     def _transcribe_api(self, audio, prompt=''):
-        text = self.recognizer.recognize_whisper_api(
+        return self.recognizer.recognize_whisper_api(
             audio,
             api_key=config.api_key,
         )
-        return text
 
     def _convert_webm_to_wav(self, webm_data):
         webm_audio = AudioSegment.from_file(

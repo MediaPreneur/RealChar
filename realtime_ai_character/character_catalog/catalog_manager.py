@@ -65,7 +65,7 @@ class CatalogManager(Singleton):
             character_name = self.load_character(directory)
             if overwrite:
                 self.load_data(character_name, directory / 'data')
-                logger.info('Loaded data for character: ' + character_name)
+                logger.info(f'Loaded data for character: {character_name}')
         logger.info(
             f'Loaded {len(self.characters)} characters: names {list(self.characters.keys())}')
 
